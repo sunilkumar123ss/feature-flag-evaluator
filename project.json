@@ -1,0 +1,8 @@
+{
+  "slug": "feature-flag-evaluator",
+  "title": "Deterministic feature flags",
+  "description": "Evaluate explicit targeting rules and reproducible percentage rollouts.",
+  "category": "systems",
+  "demo_args": [],
+  "expected_exit": 0
+}
