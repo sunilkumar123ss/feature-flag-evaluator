@@ -32,3 +32,10 @@ def evaluate(flag, user_id, attributes):
     bucket = int.from_bytes(hashlib.sha256(encoded).digest()[:8], 'big') % 10000
     included = bucket < rollout
     return {'value': True if included else flag['default'], 'reason': 'rollout' if included else 'default', 'bucket': bucket}
+
+def demo():
+    flag = {'key': 'synthetic-search-ui', 'enabled': True, 'default': False, 'rollout_bps': 2500, 'rules': [{'attribute': 'team', 'equals': 'testers', 'value': True}]}
+    return {user: evaluate(flag, user, {'team': team}) for (user, team) in [('synthetic-a', 'testers'), ('synthetic-b', 'general'), ('synthetic-c', 'general')]}
+if __name__ == '__main__':
+    argparse.ArgumentParser(description=__doc__).parse_args()
+    print(json.dumps(demo(), indent=2))
