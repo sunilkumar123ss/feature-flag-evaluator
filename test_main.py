@@ -15,6 +15,11 @@ class FlagTests(unittest.TestCase):
     def test_disabled_uses_default(self):
         self.assertFalse(m.evaluate(self.flag(enabled=False, rollout_bps=10000), 'a', {})['value'])
 
+    def test_first_matching_rule_wins(self):
+        rules = [{'attribute': 'team', 'equals': 'qa', 'value': False}, {'attribute': 'team', 'equals': 'qa', 'value': True}]
+        r = m.evaluate(self.flag(rules=rules, rollout_bps=10000), 'a', {'team': 'qa'})
+        self.assertFalse(r['value'])
+        self.assertEqual(r['rule_index'], 0)
 
 
 
