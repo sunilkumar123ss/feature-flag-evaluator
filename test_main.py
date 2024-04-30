@@ -21,6 +21,10 @@ class FlagTests(unittest.TestCase):
         self.assertFalse(r['value'])
         self.assertEqual(r['rule_index'], 0)
 
+    def test_rollout_endpoints(self):
+        for user in map(str, range(50)):
+            self.assertFalse(m.evaluate(self.flag(rollout_bps=0), user, {})['value'])
+            self.assertTrue(m.evaluate(self.flag(rollout_bps=10000), user, {})['value'])
 
 
 
