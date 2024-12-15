@@ -26,6 +26,12 @@ class FlagTests(unittest.TestCase):
             self.assertFalse(m.evaluate(self.flag(rollout_bps=0), user, {})['value'])
             self.assertTrue(m.evaluate(self.flag(rollout_bps=10000), user, {})['value'])
 
+    def test_stable_bucket_and_monotonic_rollout(self):
+        first = m.evaluate(self.flag(rollout_bps=5000), 'a', {})
+        again = m.evaluate(self.flag(rollout_bps=5000), 'a', {})
+        self.assertEqual(first, again)
+        bucket = first['bucket']
+        self.assertTrue(m.evaluate(self.flag(rollout_bps=bucket + 1), 'a', {})['value'])
 
 
 if __name__ == '__main__':
