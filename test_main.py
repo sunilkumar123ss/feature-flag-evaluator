@@ -33,6 +33,10 @@ class FlagTests(unittest.TestCase):
         bucket = first['bucket']
         self.assertTrue(m.evaluate(self.flag(rollout_bps=bucket + 1), 'a', {})['value'])
 
+    def test_missing_attribute_does_not_match_null(self):
+        flag = self.flag(rules=[{'attribute': 'region', 'equals': None, 'value': True}])
+        self.assertFalse(m.evaluate(flag, 'a', {})['value'])
+        self.assertTrue(m.evaluate(flag, 'a', {'region': None})['value'])
 
 if __name__ == '__main__':
     unittest.main()
