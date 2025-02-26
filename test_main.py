@@ -38,5 +38,10 @@ class FlagTests(unittest.TestCase):
         self.assertFalse(m.evaluate(flag, 'a', {})['value'])
         self.assertTrue(m.evaluate(flag, 'a', {'region': None})['value'])
 
+    def test_invalid_rollout_and_rule(self):
+        with self.assertRaises(ValueError):
+            m.evaluate(self.flag(rollout_bps=True), 'a', {})
+        with self.assertRaises(ValueError):
+            m.evaluate(self.flag(rules=[None]), 'a', {})
 if __name__ == '__main__':
     unittest.main()
